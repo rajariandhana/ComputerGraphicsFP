@@ -58,7 +58,7 @@ export class World extends THREE.Mesh{
     }
     createTerrain(){
         const terrainMaterial = new THREE.MeshStandardMaterial({
-            color:0xfefefe,
+            color:0x77bb41,
             // wireframe:true
         });
         const terrainGeometry = new THREE.PlaneGeometry(this.width,this.height,this.width,this.height);
@@ -73,22 +73,23 @@ export class World extends THREE.Mesh{
         
         this.add(this.trees);
         for(let i=0; i<this.treeCount; i++){
+            const coords = new THREE.Vector2(
+                Math.floor(this.width*Math.random()),
+                Math.floor(this.height*Math.random())
+            );
+            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) {i--;continue};
             const treeGeometry = new THREE.ConeGeometry(treeRadius,treeHeight,8);
             const treeMaterial = new THREE.MeshStandardMaterial({
                 color:0x30510,
                 flatShading:true
             });
             const treeMesh = new THREE.Mesh(treeGeometry,treeMaterial);
-            const coords = new THREE.Vector2(
-                Math.floor(this.width*Math.random()),
-                Math.floor(this.height*Math.random())
-            );
-            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) continue;
+            
             treeMesh.rotateOnAxis.x = Math.PI/2;
             treeMesh.position.set(
-                coords.x +0.5,
+                coords.x ,
                 treeHeight/2,
-                coords.y+0.5
+                coords.y
             );
             this.trees.add(treeMesh);
             this.#objectMap.set(`${coords.x}-${coords.y}`,treeMesh);
@@ -107,20 +108,20 @@ export class World extends THREE.Mesh{
         this.rocks = new THREE.Group();
         this.add(this.rocks);
         for(let i=0; i<this.rockCount; i++){
-            const radius = minRockRadius+(Math.random() * (MaxRockRadius-minRockRadius));
-            const height = minRockHeight+(Math.random() * (MaxRockHeight-minRockHeight));
-            const rockGeometry = new THREE.SphereGeometry(radius,6,5);
-            const rockMesh = new THREE.Mesh(rockGeometry,rockMaterial);
             const coords = new THREE.Vector2(
                 Math.floor(this.width*Math.random()),
                 Math.floor(this.height*Math.random())
             );
-            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) continue;
+            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) {i--; continue};
 
+            const radius = minRockRadius+(Math.random() * (MaxRockRadius-minRockRadius));
+            const height = minRockHeight+(Math.random() * (MaxRockHeight-minRockHeight));
+            const rockGeometry = new THREE.SphereGeometry(radius,6,5);
+            const rockMesh = new THREE.Mesh(rockGeometry,rockMaterial);
             rockMesh.position.set(
-                coords.x +0.5,
+                coords.x,
                 0,
-                coords.y+0.5
+                coords.y
             );
             rockMesh.scale.y = height;
             this.rocks.add(rockMesh);
@@ -140,20 +141,21 @@ export class World extends THREE.Mesh{
         this.bushes = new THREE.Group();
         this.add(this.bushes);
         for(let i=0; i<this.bushCount; i++){
-            const radius = minBushRadius+(Math.random() * (MaxBushRadius-minBushRadius));
-            // const height = minBushHeight+(Math.random() * (MaxBushHeight-minBushHeight));
-            const bushGeometry = new THREE.SphereGeometry(radius,8,8);
-            const bushMesh = new THREE.Mesh(bushGeometry,bushMaterial);
             const coords = new THREE.Vector2(
                 Math.floor(this.width*Math.random()),
                 Math.floor(this.height*Math.random())
             );
-            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) continue;
+            if(this.#objectMap.has(`$${coords.x}-${coords.y}`)) {i--; continue};
+
+            const radius = minBushRadius+(Math.random() * (MaxBushRadius-minBushRadius));
+            // const height = minBushHeight+(Math.random() * (MaxBushHeight-minBushHeight));
+            const bushGeometry = new THREE.SphereGeometry(radius,8,8);
+            const bushMesh = new THREE.Mesh(bushGeometry,bushMaterial);
 
             bushMesh.position.set(
-                coords.x +0.5,
+                coords.x ,
                 radius,
-                coords.y+0.5
+                coords.y
             );
             // bushMesh.scale.y = height;
             this.bushes.add(bushMesh);

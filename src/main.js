@@ -4,6 +4,7 @@ import Stats from 'three/addons/libs/stats.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
 import { World } from './world';
+import { Player } from './player';
 
 const gui = new GUI();
 const stats = new Stats();
@@ -12,6 +13,7 @@ document.body.appendChild(stats.dom);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setAnimationLoop( animate );
+renderer.setPixelRatio(devicePixelRatio);
 document.body.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
@@ -24,19 +26,26 @@ controls.update();
 const world = new World(10,10);
 scene.add(world);
 
-const sun = new THREE.DirectionalLight();
-sun.intensity = 3;
-sun.position.set(1,2,3);
-scene.add(sun);
+const player = new Player();
+scene.add(player);
 
 const ambient = new THREE.AmbientLight();
-ambient.intensity = 0.5;
+ambient.intensity = 1;
 scene.add(ambient);
+
+const sun = new THREE.DirectionalLight(0xaaaaaa);
+sun.intensity = 3;
+sun.position.set(0,10,0);
+sun.castShadow=true;
+scene.add(sun);
+
 
 const cubeGeometry = new THREE.BoxGeometry( 1, 1, 1 );
 const cubeMaterial = new THREE.MeshStandardMaterial( { color: 0xff0a23 } );
 const cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
 scene.add( cube );
+
+
 
 // const torusGeometry = new THREE.TorusGeometry( 3, 1.3, 12, 48 ); 
 // const torusMaterial = new THREE.MeshStandardMaterial( { color: 0xd7873c } ); 
@@ -45,15 +54,15 @@ scene.add( cube );
 // torus.position.set(10,5,10);
 
 
-camera.position.set(10,2,10);
+// camera.position.set(10,2,10);
 console.log(window.innerWidth);
 console.log(window.innerHeight);
 controls.update();
 
 function animate() {
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  cube.rotation.z += 0.01;
+  // cube.rotation.x += 0.01;
+  // cube.rotation.y += 0.01;
+  // cube.rotation.z += 0.01;
   // torus.rotation.x += 0.01;
   // torus.rotation.y += 0.01;
   // torus.rotation.z += 0.01;
