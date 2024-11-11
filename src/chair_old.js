@@ -10,7 +10,7 @@ class CustomSinCurve extends THREE.Curve {
 
 	getPoint( t, optionalTarget = new THREE.Vector3() ) {
 
-		const tx = t;
+		const tx = t * 3 - 1.5;
 		const ty = Math.sin( 2 * Math.PI * t );
 		const tz = 0;
 
@@ -23,20 +23,20 @@ class Chair extends THREE.Mesh {
     super();
     this.tableGroup = new THREE.Group();
     const seat = new THREE.Mesh(
-        new THREE.BoxGeometry(50, 4, 50),
+        new THREE.BoxGeometry(2, 0.2, 2),
         new THREE.MeshStandardMaterial({
             color: 0x0000ff
         })
     );
-    seat.position.set(0, 40, 0);
+    seat.position.set(0, 0.3, 0);
 
     const leg1 = new THREE.Mesh(
-        new THREE.BoxGeometry(4, 40, 4),
+        new THREE.BoxGeometry(0.2, 1.2, 0.2),
         new THREE.MeshStandardMaterial({
             color: 0xc3cace
         })
     );
-    leg1.position.set(-seat.geometry.parameters.width/2, seat.position.y/2, -seat.geometry.parameters.depth/2);
+    leg1.position.set(-0.9, -0.4,-0.9);
     const leg1bot = new THREE.Mesh(
         new THREE.BoxGeometry(0.2, 0.2, 1.8),
         new THREE.MeshStandardMaterial({
@@ -44,21 +44,11 @@ class Chair extends THREE.Mesh {
         })
     );
     leg1bot.position.set(-0.9, -0.9, 0);
-
-    // const path = new CustomSinCurve( 20 );
-    // const tubeG = new THREE.TubeGeometry( path, 100, 2, 8, false );
-    // const tubeM = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
+    // const path = new CustomSinCurve( 10 );
+    // const tubeG = new THREE.TubeGeometry( path, 20, 2, 8, false );
+    // const tubeM = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
     // const tube = new THREE.Mesh( tubeG, tubeM );
-    // tube.position.set(0,100,0);
-    const radius = 50;
-    const arcStart = 0;
-    const arcEnd = Math.PI / 2;
-    const arcCurve = new THREE.ArcCurve(0, 0, radius, arcStart, arcEnd);
-    const tubeG = new THREE.TubeGeometry(arcCurve, 100,20,20, false);
-    const tubeM = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const tube = new THREE.Mesh(tubeG, tubeM);
-    tube.position.set(0,200,0);
-    this.tableGroup.add(tube);
+    // this.tableGroup.add(tube);
 
     const leg2 = new THREE.Mesh(
         new THREE.BoxGeometry(0.2, 1.2, 0.2),

@@ -7,35 +7,35 @@ class Table extends THREE.Mesh {
     super();
     this.tableGroup = new THREE.Group();
 
-    const top = new THREE.Mesh(
-        new THREE.BoxGeometry(5, 0.2, 3),
+    let top = new THREE.Mesh(
+        new THREE.BoxGeometry(180, 5, 50),
         new THREE.MeshStandardMaterial({
             color: 0xf6d7af
         })
     );
-    top.position.set(0, 1, 0);
+    top.position.set(0, 70, 0);
 
-    const leftLeg = new THREE.Mesh(
-        new THREE.BoxGeometry(0.2, 2, 3),
+    let leftLeg = new THREE.Mesh(
+        new THREE.BoxGeometry(5,70,50),
         new THREE.MeshStandardMaterial({
             color: 0xf6d7af
         })
     );
-    leftLeg.position.set(-2.4, 0,0);
+    leftLeg.position.set(-top.geometry.parameters.width/2 + top.geometry.parameters.height/2, top.position.y/2,0);
 
-    const rightLeg = new THREE.Mesh(
-        new THREE.BoxGeometry(0.2, 2, 3),
+    let rightLeg = new THREE.Mesh(
+        new THREE.BoxGeometry(5,70,50),
         new THREE.MeshStandardMaterial({
             color: 0xf6d7af
         })
     );
-    rightLeg.position.set(2.4, 0,0);
+    rightLeg.position.set(top.geometry.parameters.width/2 - top.geometry.parameters.height/2, top.position.y/2,0);
 
-    const chair = new Chair();
-    chair.position.set(0, 0, 1.5);
-    chair.rotation.y = 90*Math.PI;
+    // const chair = new Chair();
+    // chair.position.set(0, 0, 1.5);
+    // chair.rotation.y = 90*Math.PI;
 
-    this.tableGroup.add(top, leftLeg, rightLeg,chair);
+    this.tableGroup.add(top, leftLeg, rightLeg);
     this.add(this.tableGroup);
     this.rotation.y = Math.PI / 2;
   }

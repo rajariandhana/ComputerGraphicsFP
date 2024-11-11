@@ -3,14 +3,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
-import { Table } from './table2.js';
-import { Chair } from './chair2.js';
+import { Table } from './table.js';
+import { Chair } from './chair.js';
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setAnimationLoop( animate );
 renderer.setPixelRatio(devicePixelRatio);
 renderer.shadowMap.enabled=true;
-renderer.shadowMap.type=THREE.PCFShadowMap; // default
+renderer.shadowMap.type=THREE.PCFSoftShadowMap; // default
+renderer.physicallyCorrectLights = true; // Enable PBR lighting
 document.body.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
@@ -20,14 +22,29 @@ controls.target.set(-120, 0, 0);
 camera.position.set(150, 160, 0);
 controls.update();
 
+// const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
+//     format: THREE.RGBAFormat,
+//     generateMipmaps: true,
+//     minFilter: THREE.LinearMipmapLinearFilter,
+// });
+// const cubeCamera = new THREE.CubeCamera(1, 1000, cubeRenderTarget);
+// scene.add(cubeCamera);
+
 const ambient = new THREE.AmbientLight(0xffffff,1);
 scene.add(ambient);
 
-const sun = new THREE.DirectionalLight(0xffffff);
-sun.intensity = 1;
-// sun.position.set(5,5,5);
-sun.position.set(0,500,0);
-sun.castShadow=true;
+const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+sun.position.set(100, 200, 100);
+sun.castShadow = true;
+sun.shadow.mapSize.width = 2048; // Increase shadow map resolution for sharper shadows
+sun.shadow.mapSize.height = 2048;
+sun.shadow.camera.near = 0.5;
+sun.shadow.camera.far = 1000;
+sun.shadow.camera.left = -200;
+sun.shadow.camera.right = 200;
+sun.shadow.camera.top = 200;
+sun.shadow.camera.bottom = -200;
+
 const sunHelper = new THREE.DirectionalLightHelper(sun,3);
 scene.add(sun,sunHelper);
 
@@ -107,7 +124,12 @@ function animate() {
     // torus.rotation.x += 0.01;
     // torus.rotation.y += 0.01;
     // torus.rotation.z += 0.01;
+    // cubeCamera.position.copy(chair1.position);
+    // chair1.visible = false;  // Hide chair to avoid self-reflection
+    // cubeCamera.update(renderer, scene);
+    // chair1.visible = true;
+
     controls.update();
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
     // stats.update();
 }
