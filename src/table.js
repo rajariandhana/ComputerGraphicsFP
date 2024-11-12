@@ -7,11 +7,13 @@ class Table extends THREE.Mesh {
     super();
     this.tableGroup = new THREE.Group();
 
+    const woodTexture = new THREE.TextureLoader().load('/textures/wood.jpg');
+    const woodMaterial = new THREE.MeshStandardMaterial({
+        map:woodTexture
+    })
     let top = new THREE.Mesh(
         new THREE.BoxGeometry(180, 5, 50),
-        new THREE.MeshStandardMaterial({
-            color: 0xf6d7af
-        })
+        woodMaterial
     );
     top.position.set(0, 70, 0);
     top.castShadow=true;
@@ -19,9 +21,7 @@ class Table extends THREE.Mesh {
 
     let leftLeg = new THREE.Mesh(
         new THREE.BoxGeometry(5,70,50),
-        new THREE.MeshStandardMaterial({
-            color: 0xf6d7af
-        })
+        woodMaterial
     );
     leftLeg.position.set(-top.geometry.parameters.width/2 + top.geometry.parameters.height/2, top.position.y/2,0);
     leftLeg.castShadow=true;
@@ -30,13 +30,6 @@ class Table extends THREE.Mesh {
     let rightLeg = leftLeg.clone();
     rightLeg.scale.x = -1;
     rightLeg.position.x = -leftLeg.position.x;
-    // let rightLeg = new THREE.Mesh(
-    //     new THREE.BoxGeometry(5,70,50),
-    //     new THREE.MeshStandardMaterial({
-    //         color: 0xf6d7af
-    //     })
-    // );
-    // rightLeg.position.set(top.geometry.parameters.width/2 - top.geometry.parameters.height/2, top.position.y/2,0);
 
     let chair1 = new Chair();
     chair1.position.set(top.geometry.parameters.width/4-10, 0, 25);

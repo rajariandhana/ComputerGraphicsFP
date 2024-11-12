@@ -23,10 +23,13 @@ class Chair extends THREE.Mesh {
     super();
     this.chairGroup = new THREE.Group();
 
+    const fabricTexture = new THREE.TextureLoader().load('/textures/blueFabric.jpeg');
+
     let seat = new THREE.Mesh(
         new THREE.BoxGeometry(46, 7, 48),
         new THREE.MeshStandardMaterial({
-            color: 0x0000ff
+            // color: 0x0000ff
+            map:fabricTexture
         })
     );
     seat.position.set(0, 46, 0);
@@ -34,14 +37,10 @@ class Chair extends THREE.Mesh {
     seat.receiveShadow=true;
     this.chairGroup.add(seat);
 
-    // let besiMat = new THREE.MeshStandardMaterial({
-    //     color: 0xc3cace,
-    //     metalness:1.0,
-    //     roughness:0.05,
-    //     // envMap: cubeRenderTarget.texture
-    // });
-    let besiMat = new THREE.MeshStandardMaterial({
-        color: 0xc3cace,
+    const metalTexture = new THREE.TextureLoader().load('/textures/metal.jpeg');
+    let metalMaterial = new THREE.MeshStandardMaterial({
+        // color: 0xc3cace,
+        map:metalTexture
         // metalness:1.0,
         // roughness:0.05,
         // envMap: cubeRenderTarget.texture
@@ -49,7 +48,7 @@ class Chair extends THREE.Mesh {
 
     let besiAlasSamping = new THREE.Mesh(
         new THREE.BoxGeometry(3, 3, 50),
-        besiMat
+        metalMaterial
     );
     besiAlasSamping.position.set(-seat.geometry.parameters.width/2, 0, 0);
     besiAlasSamping.castShadow = true;
@@ -57,7 +56,7 @@ class Chair extends THREE.Mesh {
 
     let besiBerdiri = new THREE.Mesh(
         new THREE.BoxGeometry(3, 66, 3),
-        besiMat
+        metalMaterial
     );
     besiBerdiri.position.set(-seat.geometry.parameters.width/2,besiBerdiri.geometry.parameters.height/2,-seat.geometry.parameters.width/2);
     besiBerdiri.castShadow = true;
@@ -65,7 +64,7 @@ class Chair extends THREE.Mesh {
 
     let armRest = new THREE.Mesh(
         new THREE.BoxGeometry(3,3,42),
-        besiMat
+        metalMaterial
     );
     armRest.position.set(-seat.geometry.parameters.width/2,besiBerdiri.geometry.parameters.height,0);
     armRest.castShadow = true;
@@ -73,7 +72,7 @@ class Chair extends THREE.Mesh {
 
     let besiAlasBelakang = new THREE.Mesh(
         new THREE.BoxGeometry(50, 3, 3),
-        besiMat
+        metalMaterial
     );
     besiAlasBelakang.position.set(0,0,seat.geometry.parameters.width/2);
     besiAlasBelakang.castShadow = true;
