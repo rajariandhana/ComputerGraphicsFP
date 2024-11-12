@@ -1,5 +1,7 @@
 // table.js
 import * as THREE from 'three';
+import { PC } from './pc.js';
+import { Monitor } from './monitor.js';
 import { Chair } from './chair.js';
 
 class Table extends THREE.Mesh {

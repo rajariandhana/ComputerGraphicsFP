@@ -5,6 +5,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
 import { Table } from './table.js';
 import { Chair } from './chair.js';
+import { PC } from './pc.js';
+import { Monitor } from './monitor.js';
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -75,7 +77,7 @@ cube.castShadow=true;
 cube.position.set(0,1,0);
 // scene.add( cube );
 
-const floorG = new THREE.PlaneGeometry(300,600);
+const floorG = new THREE.PlaneGeometry(600,700);
 const floorM = new THREE.MeshStandardMaterial({color:0xfefefe,side:THREE.DoubleSide});
 const floor = new THREE.Mesh(floorG,floorM);
 floor.receiveShadow = true;
@@ -83,7 +85,7 @@ floor.rotation.x=-Math.PI / 2;
 scene.add(floor);
 
 const wallNorth = new THREE.Mesh(
-    new THREE.PlaneGeometry(600,200),
+    new THREE.PlaneGeometry(floor.geometry.parameters.height,200),
     new THREE.MeshStandardMaterial({color:0x0000ff,side:THREE.DoubleSide})
 );
 wallNorth.receiveShadow = true;
@@ -92,35 +94,60 @@ wallNorth.position.x = -floor.geometry.parameters.width/2;
 wallNorth.position.y = wallNorth.geometry.parameters.height/2;
 scene.add(wallNorth);
 
-const wallSouth = new THREE.Mesh(
-    new THREE.PlaneGeometry(15,5),
-    new THREE.MeshStandardMaterial({color:0xffffff,side:THREE.DoubleSide})
-);
-wallSouth.receiveShadow = true;
-wallSouth.position.z=-10;
-wallSouth.position.y=2.5;
-scene.add(wallSouth);
+// const wallSouth = wallNorth.clone();  // Clone the wall for consistency
+// wallSouth.position.x = floor.geometry.parameters.width / 2;
+// scene.add(wallSouth);
 
+const monitor1 = new Monitor();
+scene.add(monitor1);
+
+const pc1 = new PC();
+scene.add(pc1);
+
+const wallWest = new THREE.Mesh(
+    new THREE.PlaneGeometry(600, 200), // Match floor width
+    new THREE.MeshStandardMaterial({ color: 0xD9D3C3, side: THREE.DoubleSide })
+);
+wallWest.receiveShadow = true;
+wallWest.position.z = -floor.geometry.parameters.height / 2; // Edge along Z-axis
+wallWest.position.y = wallWest.geometry.parameters.height / 2;
+scene.add(wallWest);
+
+const wallEast = wallWest.clone();
+wallEast.position.z = floor.geometry.parameters.height / 2; // Opposite edge along Z-axis
+scene.add(wallEast);
 
 // const helper = new THREE.CameraHelper( light.shadow.camera );
 // scene.add( helper );
 
 const table1 = new Table();
-table1.position.set(-120, 0, 0);
+table1.position.set(-274, 0, -84);
 scene.add(table1);
 
 const table2 = new Table();
-table2.position.set(-120, 0, -170);
+table2.position.set(-274, 0, -257);
 scene.add(table2);
+
+const table3 = new Table();
+table3.position.set(-60, 0, 325);
+table3.rotation.y = -Math.PI / 1;
+scene.add(table3);
+
+const table4 = new Table();
+table4.position.set(120, 0, 325);
+table4.rotation.y = -Math.PI / 1;
+scene.add(table4);
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
 // table2.rotation.y = 180*Math.PI;
 // scene.add(table2);
 
-const chair1 = new Chair();
-chair1.position.set(0, 1, 0);
-scene.add(chair1);
+// const chair1 = new Chair();
+// chair1.position.set(0, 1, 0);
+// chair1.rotation.y = -Math.PI /2;
+// scene.add(chair1);
+
 
 function animate() {
     // scene.rotation.x += 0.01;
