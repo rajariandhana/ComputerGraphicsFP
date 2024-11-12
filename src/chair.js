@@ -34,10 +34,16 @@ class Chair extends THREE.Mesh {
     seat.receiveShadow=true;
     this.chairGroup.add(seat);
 
+    // let besiMat = new THREE.MeshStandardMaterial({
+    //     color: 0xc3cace,
+    //     metalness:1.0,
+    //     roughness:0.05,
+    //     // envMap: cubeRenderTarget.texture
+    // });
     let besiMat = new THREE.MeshStandardMaterial({
         color: 0xc3cace,
-        metalness:1.0,
-        roughness:0.05,
+        // metalness:1.0,
+        // roughness:0.05,
         // envMap: cubeRenderTarget.texture
     });
 
@@ -65,7 +71,33 @@ class Chair extends THREE.Mesh {
     armRest.castShadow = true;
     armRest.receiveShadow = true;
 
-    this.chairGroup.add(besiAlasSamping,besiBerdiri,armRest);
+    let besiAlasBelakang = new THREE.Mesh(
+        new THREE.BoxGeometry(50, 3, 3),
+        besiMat
+    );
+    besiAlasBelakang.position.set(0,0,seat.geometry.parameters.width/2);
+    besiAlasBelakang.castShadow = true;
+    besiAlasBelakang.receiveShadow = true;
+
+    let senderan = new THREE.Mesh(
+        new THREE.BoxGeometry(50, 25, 2),
+        new THREE.MeshStandardMaterial({
+            color: 0x000000
+        })
+    );
+    senderan.position.set(0,armRest.position.y,seat.geometry.parameters.width/2);
+    senderan.castShadow = true;
+    senderan.receiveShadow = true;
+
+    this.leftGroup = new THREE.Group();
+    this.leftGroup.add(besiAlasSamping,besiBerdiri,armRest);
+    this.rightGroup = this.leftGroup.clone();
+    this.rightGroup.scale.x = -1;
+    this.rightGroup.position.x = -this.leftGroup.position.x;
+    
+    this.chairGroup.add(this.leftGroup,this.rightGroup,besiAlasBelakang,senderan);
+
+    // this.chairGroup.add(besiAlasSamping,armRest,besiAlasBelakang);
 
 
     // const path = new CustomSinCurve( 20 );

@@ -16,6 +16,7 @@ renderer.physicallyCorrectLights = true; // Enable PBR lighting
 document.body.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x87CEEB);
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.target.set(-120, 0, 0);
@@ -108,6 +109,10 @@ const table1 = new Table();
 table1.position.set(-120, 0, 0);
 scene.add(table1);
 
+const table2 = new Table();
+table2.position.set(-120, 0, -170);
+scene.add(table2);
+
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
 // table2.rotation.y = 180*Math.PI;
@@ -118,9 +123,9 @@ chair1.position.set(0, 1, 0);
 scene.add(chair1);
 
 function animate() {
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    // cube.rotation.z += 0.01;
+    // scene.rotation.x += 0.01;
+    // scene.rotation.y += 0.01;
+    // scene.rotation.z += 0.01;
     // torus.rotation.x += 0.01;
     // torus.rotation.y += 0.01;
     // torus.rotation.z += 0.01;
