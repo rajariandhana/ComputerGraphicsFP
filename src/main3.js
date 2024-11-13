@@ -77,11 +77,18 @@ cube.castShadow=true;
 cube.position.set(0,1,0);
 // scene.add( cube );
 
+const floorTexture = new THREE.TextureLoader().load('/textures/Floor.jpg');
+floorTexture.rotation = Math.PI / 2;
+floorTexture.center.set(0.5, 0.5);
 const floorG = new THREE.PlaneGeometry(600,700);
-const floorM = new THREE.MeshStandardMaterial({color:0xfefefe,side:THREE.DoubleSide});
+const floorM = new THREE.MeshStandardMaterial({ 
+    map: floorTexture,            
+    side: THREE.DoubleSide,
+});
 const floor = new THREE.Mesh(floorG,floorM);
 floor.receiveShadow = true;
 floor.rotation.x=-Math.PI / 2;
+floor.rotation.y = Math.PI;
 scene.add(floor);
 
 const wallNorth = new THREE.Mesh(
@@ -97,12 +104,6 @@ scene.add(wallNorth);
 // const wallSouth = wallNorth.clone();  // Clone the wall for consistency
 // wallSouth.position.x = floor.geometry.parameters.width / 2;
 // scene.add(wallSouth);
-
-const monitor1 = new Monitor();
-scene.add(monitor1);
-
-const pc1 = new PC();
-scene.add(pc1);
 
 const wallWest = new THREE.Mesh(
     new THREE.PlaneGeometry(600, 200), // Match floor width
@@ -137,6 +138,16 @@ const table4 = new Table();
 table4.position.set(120, 0, 325);
 table4.rotation.y = -Math.PI / 1;
 scene.add(table4);
+
+const monitor1 = new Monitor();
+monitor1.position.set(-284, 75, -50);
+monitor1.rotation.y = -Math.PI / 2;
+scene.add(monitor1);
+
+const pc1 = new PC();
+pc1.position.set(-270,0, -22);
+pc1.rotation.y = -Math.PI / 2;      //ntar gue tambahin lagi for the other -aul
+scene.add(pc1);
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
