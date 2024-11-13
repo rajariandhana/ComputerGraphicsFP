@@ -7,6 +7,8 @@ import { Table } from './table.js';
 import { Chair } from './chair.js';
 import { PC } from './pc.js';
 import { Monitor } from './monitor.js';
+import { TV } from './TV.js';
+
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -148,6 +150,10 @@ const pc1 = new PC();
 pc1.position.set(-270,0, -22);
 pc1.rotation.y = -Math.PI / 2;      //ntar gue tambahin lagi for the other -aul
 scene.add(pc1);
+
+const tv = new TV();
+tv.position.set(0, 100, -320); // Position the TV where you'd like it
+scene.add(tv);
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
