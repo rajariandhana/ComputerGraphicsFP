@@ -1,4 +1,3 @@
-// TV.js
 import * as THREE from 'three';
 
 export class TV extends THREE.Group {
@@ -30,5 +29,45 @@ export class TV extends THREE.Group {
         const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
         rightLeg.position.set(30, -35, -3); // Positioning leg
         this.add(rightLeg);
+
+        //TV divider
+        const dividerGeometry = new THREE.BoxGeometry(15, 190, 5); // Adjust dimensions for height and thickness
+        const dividerMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff }); // White or light gray color
+        const divider = new THREE.Mesh(dividerGeometry, dividerMaterial);
+
+        //Right divider
+        const rightDivider = new THREE.Mesh(dividerGeometry, dividerMaterial);
+        divider.position.set(60, -20, 0); // Position beside the TV, adjust as needed
+        this.add(divider);
+
+        // Left divider
+        const leftDivider = new THREE.Mesh(dividerGeometry, dividerMaterial);
+        leftDivider.position.set(-60, -20, 0); // Position on the left side of the TV
+        this.add(leftDivider);
+
+        // Shelf 
+        const shelfMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff }); // Wood-like color
+
+        // Shelf Top
+        const shelfTop = new THREE.Mesh(new THREE.BoxGeometry(90, 5, 10), shelfMaterial);
+        shelfTop.position.set(0, -55, 0); // Position below the TV
+        this.add(shelfTop);
+
+        // Shelf Bottom
+        const shelfBottom = new THREE.Mesh(new THREE.BoxGeometry(90, 5, 10), shelfMaterial);
+        shelfBottom.position.set(0, -85, 0);
+        this.add(shelfBottom);
+
+        // Shelf Left Side
+        const shelfLeft = new THREE.Mesh(new THREE.BoxGeometry(5, 30, 10), shelfMaterial);
+        shelfLeft.position.set(-43, -68, 0);
+        this.add(shelfLeft);
+
+        // Shelf Right Side
+        const shelfRight = new THREE.Mesh(new THREE.BoxGeometry(5, 30, 10), shelfMaterial);
+        shelfRight.position.set(43, -68, 0);
+        this.add(shelfRight);
+        
     }
+    
 }

@@ -152,7 +152,7 @@ pc1.rotation.y = -Math.PI / 2;      //ntar gue tambahin lagi for the other -aul
 scene.add(pc1);
 
 const tv = new TV();
-tv.position.set(0, 100, -320); // Position the TV where you'd like it
+tv.position.set(0, 120, -320); // Position the TV where you'd like it
 scene.add(tv);
 
 // const table2 = new Table();
