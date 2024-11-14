@@ -10,6 +10,7 @@ import { Monitor } from './monitor.js';
 import { TV } from './TV.js';
 
 
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setAnimationLoop( animate );
@@ -154,6 +155,7 @@ scene.add(pc1);
 const tv = new TV();
 tv.position.set(0, 120, -320); // Position the TV where you'd like it
 scene.add(tv);
+
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
