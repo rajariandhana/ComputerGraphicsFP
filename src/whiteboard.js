@@ -1,7 +1,7 @@
 // Whiteboard.js
 import * as THREE from 'three';
 
-export class Whiteboard extends THREE.Group {
+class Whiteboard extends THREE.Group {
     constructor() {
         super();
 
@@ -36,3 +36,5 @@ export class Whiteboard extends THREE.Group {
         });
     }
 }
+
+export { Whiteboard };

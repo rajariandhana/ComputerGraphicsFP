@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { Chair } from './chair.js';
 
-export class ConferenceTable extends THREE.Group {
+class ConferenceTable extends THREE.Group {
     constructor() {
         super();
 
@@ -90,3 +90,5 @@ export class ConferenceTable extends THREE.Group {
         this.add(backChair2);
     }
 }
+
+export { ConferenceTable };

@@ -1,15 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import Stats from 'three/addons/libs/stats.module.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
 import { Table } from './table.js';
-import { Chair } from './chair.js';
 import { PC } from './pc.js';
 import { Monitor } from './monitor.js';
 import { TV } from './TV.js';
-
-
+import { Whiteboard } from './whiteboard.js';
+import { ConferenceTable } from './ConferenceTable.js';
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -53,25 +49,6 @@ sun.shadow.camera.bottom = -200;
 
 const sunHelper = new THREE.DirectionalLightHelper(sun,3);
 scene.add(sun,sunHelper);
-
-// const sun2 = new THREE.DirectionalLight(0x0000ff);
-// sun2.intensity = 3;
-// sun2.position.set(-5,5,-5);
-// sun2.castShadow=true;
-// const sun2Helper = new THREE.DirectionalLightHelper(sun2,3);
-// scene.add(sun2,sun2Helper);
-
-// const pointLight = new THREE.PointLight( 0x00ffff, 1,100 );
-// pointLight.position.set( 0, 5, 5 );
-// pointLight.castShadow=true;
-// scene.add( pointLight );
-// const pointLightHelper = new THREE.PointLightHelper( pointLight,1);
-// scene.add( pointLightHelper );
-
-// pointLight.shadow.mapSize.width = 512; // default
-// pointLight.shadow.mapSize.height = 512; // default
-// pointLight.shadow.camera.near = 0.5; // default
-// pointLight.shadow.camera.far = 500; // default
 
 const cubeG = new THREE.BoxGeometry( 1, 1, 1 );
 const cubeM = new THREE.MeshStandardMaterial( { color: 0xff0a23 } );
@@ -149,13 +126,83 @@ scene.add(monitor1);
 
 const pc1 = new PC();
 pc1.position.set(-270,0, -22);
-pc1.rotation.y = -Math.PI / 2;      //ntar gue tambahin lagi for the other -aul
+pc1.rotation.y = -Math.PI / 2;     
 scene.add(pc1);
 
+const monitor2 = new Monitor();
+monitor2.position.set(-284, 75, -116);
+monitor2.rotation.y = -Math.PI / 2;
+scene.add(monitor2);
+
+
+const pc2 = new PC();
+pc2.position.set(-270,0, -166);
+pc2.rotation.y = -Math.PI / 2;     
+scene.add(pc2);
+
+const monitor3 = new Monitor();
+monitor3.position.set(-284, 75, -219);
+monitor3.rotation.y = -Math.PI / 2;
+scene.add(monitor3);
+
+const pc3 = new PC();
+pc3.position.set(-270,0, -196);
+pc3.rotation.y = -Math.PI / 2;     
+scene.add(pc3);
+
+const monitor4 = new Monitor();
+monitor4.position.set(-284, 75, -290);
+monitor4.rotation.y = -Math.PI / 2;
+scene.add(monitor4);
+
+const pc4 = new PC();
+pc4.position.set(-270,0, -340);
+pc4.rotation.y = -Math.PI / 2;      
+scene.add(pc4);
+
+const monitor5 = new Monitor();
+monitor5.position.set(-95, 75, 340);
+scene.add(monitor5);
+
+const pc5 = new PC();
+pc5.position.set(-143,0, 320);
+scene.add(pc5);
+
+const monitor6 = new Monitor();
+monitor6.position.set(-25, 75, 340);
+scene.add(monitor6);
+
+const pc6 = new PC();
+pc6.position.set(4,0, 320);
+scene.add(pc6);
+
+const monitor7 = new Monitor();
+monitor7.position.set(85, 75, 340);
+scene.add(monitor7);
+
+const pc7 = new PC();
+pc7.position.set(37,0, 320);
+scene.add(pc7);
+
+const monitor8 = new Monitor();
+monitor8.position.set(150, 75, 340);
+scene.add(monitor8);
+
+const pc8 = new PC();
+pc8.position.set(184,0, 320);
+scene.add(pc8);
+
 const tv = new TV();
-tv.position.set(0, 120, -320); // Position the TV where you'd like it
+tv.position.set(0, 120, -345.1); 
 scene.add(tv);
 
+const whiteboard = new Whiteboard();
+whiteboard.position.set(180, 120, -350.1); 
+scene.add(whiteboard);
+
+const conferenceTable = new ConferenceTable();
+conferenceTable.position.set(10, 0, -30); 
+scene.add(conferenceTable);
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
@@ -169,18 +216,6 @@ scene.add(tv);
 
 
 function animate() {
-    // scene.rotation.x += 0.01;
-    // scene.rotation.y += 0.01;
-    // scene.rotation.z += 0.01;
-    // torus.rotation.x += 0.01;
-    // torus.rotation.y += 0.01;
-    // torus.rotation.z += 0.01;
-    // cubeCamera.position.copy(chair1.position);
-    // chair1.visible = false;  // Hide chair to avoid self-reflection
-    // cubeCamera.update(renderer, scene);
-    // chair1.visible = true;
-
     controls.update();
     renderer.render(scene, camera);
-    // stats.update();
 }
