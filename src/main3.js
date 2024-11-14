@@ -7,6 +7,10 @@ import { Table } from './table.js';
 import { Chair } from './chair.js';
 import { PC } from './pc.js';
 import { Monitor } from './monitor.js';
+import { TV } from './TV.js';
+import { Whiteboard } from './whiteboard.js';
+import { ConferenceTable } from './ConferenceTable.js';
+
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -148,6 +152,18 @@ const pc1 = new PC();
 pc1.position.set(-270,0, -22);
 pc1.rotation.y = -Math.PI / 2;      //ntar gue tambahin lagi for the other -aul
 scene.add(pc1);
+
+const tv = new TV();
+tv.position.set(0, 120, -320); // Position the TV where you'd like it
+scene.add(tv);
+
+const whiteboard = new Whiteboard();
+whiteboard.position.set(180, 120, -320); // Position the whiteboard as desired
+scene.add(whiteboard);
+
+const conferenceTable = new ConferenceTable();
+conferenceTable.position.set(0, 0, 0); // Position the table as needed
+scene.add(conferenceTable);
 
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
