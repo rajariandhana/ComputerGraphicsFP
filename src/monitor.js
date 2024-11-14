@@ -7,7 +7,6 @@ class Monitor extends THREE.Group {
 
     // Monitor Stand
     const standGeometry = new THREE.CylinderGeometry(1, 1, 10, 30);
-    // const standGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 32);
     const standMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
     const stand = new THREE.Mesh(standGeometry, standMaterial);
     stand.position.set(0, 3.5, 0);
@@ -57,6 +56,14 @@ class Monitor extends THREE.Group {
     keyboard.receiveShadow = true;
     this.add(keyboard);
 
+    //Mouse
+    const mouseGeometry = new THREE.BoxGeometry(3, 1.2, 5);
+    const mouseMaterial = new THREE.MeshStandardMaterial({color: 0x00000});
+    const mouse = new THREE.Mesh(mouseGeometry, mouseMaterial);
+    mouse.position.set(-20, -2, -15);
+    mouse.castShadow = true;
+    mouse.receiveShadow = true;
+    this.add(mouse);
   }
 }
 
