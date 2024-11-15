@@ -1,22 +1,4 @@
-// table.js
 import * as THREE from 'three';
-
-class CustomSinCurve extends THREE.Curve {
-
-	constructor( scale = 1 ) {
-		super();
-		this.scale = scale;
-	}
-
-	getPoint( t, optionalTarget = new THREE.Vector3() ) {
-
-		const tx = t;
-		const ty = Math.sin( 2 * Math.PI * t );
-		const tz = 0;
-
-		return optionalTarget.set( tx, ty, tz ).multiplyScalar( this.scale );
-	}
-}
 
 class Chair extends THREE.Mesh {
   constructor() {
@@ -40,41 +22,44 @@ class Chair extends THREE.Mesh {
     const metalTexture = new THREE.TextureLoader().load('/textures/metal.jpeg');
     let metalMaterial = new THREE.MeshStandardMaterial({
         // color: 0xc3cace,
-        map:metalTexture
+        map:metalTexture,
         // metalness:1.0,
         // roughness:0.05,
         // envMap: cubeRenderTarget.texture
     });
 
     let besiAlasSamping = new THREE.Mesh(
-        new THREE.BoxGeometry(3, 3, 50),
+        new THREE.CylinderGeometry(1.5,1.5,26,30),
         metalMaterial
     );
-    besiAlasSamping.position.set(-seat.geometry.parameters.width/2, 0, 0);
+    besiAlasSamping.position.set(-seat.geometry.parameters.width/2,0,0);
+    besiAlasSamping.rotation.x = Math.PI/2;
     besiAlasSamping.castShadow = true;
     besiAlasSamping.receiveShadow = true;
 
     let besiBerdiri = new THREE.Mesh(
-        new THREE.BoxGeometry(3, 66, 3),
+        new THREE.CylinderGeometry(1.5, 1.5,45,30),
         metalMaterial
     );
-    besiBerdiri.position.set(-seat.geometry.parameters.width/2,besiBerdiri.geometry.parameters.height/2,-seat.geometry.parameters.width/2);
+    besiBerdiri.position.set(-seat.geometry.parameters.width/2, 32.5, -seat.geometry.parameters.width/2);
     besiBerdiri.castShadow = true;
     besiBerdiri.receiveShadow = true;
 
     let armRest = new THREE.Mesh(
-        new THREE.BoxGeometry(3,3,42),
+        new THREE.CylinderGeometry(1.5,1.5,36,30),
         metalMaterial
     );
-    armRest.position.set(-seat.geometry.parameters.width/2,besiBerdiri.geometry.parameters.height,0);
+    armRest.position.set(-seat.geometry.parameters.width/2,65,5);
+    armRest.rotation.x = Math.PI/2;
     armRest.castShadow = true;
     armRest.receiveShadow = true;
 
     let besiAlasBelakang = new THREE.Mesh(
-        new THREE.BoxGeometry(50, 3, 3),
+        new THREE.CylinderGeometry(1.5,1.5,26,30),
         metalMaterial
     );
-    besiAlasBelakang.position.set(0,0,seat.geometry.parameters.width/2);
+    besiAlasBelakang.rotation.z = Math.PI/2;
+    besiAlasBelakang.position.set(0, 0, 23);
     besiAlasBelakang.castShadow = true;
     besiAlasBelakang.receiveShadow = true;
 
@@ -88,34 +73,28 @@ class Chair extends THREE.Mesh {
     senderan.castShadow = true;
     senderan.receiveShadow = true;
 
+    let torusG = new THREE.TorusGeometry(10,1.5,besiAlasSamping.geometry.parameters.radialSegments,100,Math.PI/2); 
+    let torus1 = new THREE.Mesh( torusG, metalMaterial );
+    torus1.position.set(-seat.geometry.parameters.width/2, 55, -13);
+    torus1.rotation.y = Math.PI/2;
+
+    let torus2 = torus1.clone();
+    torus2.rotation.x = -Math.PI/2;
+    torus2.position.y=10;
+
+    let torus3 = torus2.clone();
+    torus3.rotation.z = -Math.PI/2;
+    torus3.rotation.y = Math.PI;
+    torus3.position.set(-13,0,13);
+
     this.leftGroup = new THREE.Group();
-    this.leftGroup.add(besiAlasSamping,besiBerdiri,armRest);
+    this.leftGroup.add(besiAlasSamping,besiBerdiri,armRest,torus1,torus2,torus3);
     this.rightGroup = this.leftGroup.clone();
     this.rightGroup.scale.x = -1;
     this.rightGroup.position.x = -this.leftGroup.position.x;
     
     this.chairGroup.add(this.leftGroup,this.rightGroup,besiAlasBelakang,senderan);
 
-    // this.chairGroup.add(besiAlasSamping,armRest,besiAlasBelakang);
-
-
-    // const path = new CustomSinCurve( 20 );
-    // const tubeG = new THREE.TubeGeometry( path, 100, 2, 8, false );
-    // const tubeM = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
-    // const tube = new THREE.Mesh( tubeG, tubeM );
-    // tube.position.set(0,100,0);
-    // const radius = 50;
-    // const arcStart = 0;
-    // const arcEnd = Math.PI / 2;
-    // const arcCurve = new THREE.ArcCurve(0, 0, radius, arcStart, arcEnd);
-    // const tubeG = new THREE.TubeGeometry(arcCurve, 100,20,20, false);
-    // const tubeM = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    // const tube = new THREE.Mesh(tubeG, tubeM);
-    // tube.position.set(0,200,0);
-    // this.chairGroup.add(tube);
-
-
-    // this.tableGroup.add(seat,leg1,leg1bot, leg2,leg2bot ,legback, back);
     this.add(this.chairGroup);
     this.rotation.y = Math.PI / 2;
   }

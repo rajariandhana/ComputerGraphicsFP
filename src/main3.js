@@ -21,7 +21,9 @@ scene.background = new THREE.Color(0x87CEEB);
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.target.set(-120, 0, 0);
+// controls.target.set(0, 50, 0);
 camera.position.set(150, 160, 0);
+// camera.position.set(400, 50, 0);
 controls.update();
 
 // const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
@@ -213,7 +215,6 @@ scene.add(conferenceTable);
 // chair1.position.set(0, 1, 0);
 // chair1.rotation.y = -Math.PI /2;
 // scene.add(chair1);
-
 
 function animate() {
     controls.update();
