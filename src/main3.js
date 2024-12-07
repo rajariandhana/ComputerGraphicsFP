@@ -9,6 +9,8 @@ import { ConferenceTable } from './ConferenceTable.js';
 import { RackFlat } from './rackFlat.js';
 import { RackBox } from './rackBox.js';
 import { WoodenWall } from './woodenWall.js';
+import { MainDoor } from './mainDoor.js';
+
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -84,7 +86,7 @@ wallNorth.receiveShadow = true;
 wallNorth.rotation.y=-Math.PI / 2;
 wallNorth.position.x = -floor.geometry.parameters.width/2;
 wallNorth.position.y = wallNorth.geometry.parameters.height/2;
-scene.add(wallNorth);
+// scene.add(wallNorth);
 
 // const wallSouth = wallNorth.clone();  // Clone the wall for consistency
 // wallSouth.position.x = floor.geometry.parameters.width / 2;
@@ -234,6 +236,11 @@ const conferenceTable = new ConferenceTable();
 conferenceTable.position.set(10, 0, -30); 
 scene.add(conferenceTable);
 
+const door = new MainDoor();
+door.position.set(wallNorth.position.x, 0, 150);
+door.rotation.y = 0.5*Math.PI;
+scene.add(door);
+
 // const table2 = new Table();
 // table2.position.set(0, 1, -7.5);
 // table2.rotation.y = 180*Math.PI;
@@ -264,27 +271,27 @@ controlsFolder.add(controls.target, 'z', -500, 500).step(1).name('Target Z');
 controlsFolder.open();
 
 // Add light (ambient light) controls
-const ambientLightFolder = gui.addFolder('Ambient Light');
-ambientLightFolder.add(ambient, 'intensity', 0, 2).step(0.01).name('Ambient Light Intensity');
+// const ambientLightFolder = gui.addFolder('Ambient Light');
+// ambientLightFolder.add(ambient, 'intensity', 0, 2).step(0.01).name('Ambient Light Intensity');
 
 // Add sun (directional light) controls
-const sunFolder = gui.addFolder('Directional Light');
-sunFolder.add(sun.position, 'x', -500, 500).step(1).name('Sun X');
-sunFolder.add(sun.position, 'y', 0, 500).step(1).name('Sun Y');
-sunFolder.add(sun.position, 'z', -500, 500).step(1).name('Sun Z');
-sunFolder.add(sun, 'intensity', 0, 5).step(0.01).name('Sun Intensity');
+// const sunFolder = gui.addFolder('Directional Light');
+// sunFolder.add(sun.position, 'x', -500, 500).step(1).name('Sun X');
+// sunFolder.add(sun.position, 'y', 0, 500).step(1).name('Sun Y');
+// sunFolder.add(sun.position, 'z', -500, 500).step(1).name('Sun Z');
+// sunFolder.add(sun, 'intensity', 0, 5).step(0.01).name('Sun Intensity');
 
 // Add shadow control for sun light
-const shadowFolder = gui.addFolder('Sun Shadows');
-shadowFolder.add(sun.shadow.mapSize, 'width', 1024, 4096).step(256).name('Shadow Map Size Width');
-shadowFolder.add(sun.shadow.mapSize, 'height', 1024, 4096).step(256).name('Shadow Map Size Height');
-shadowFolder.add(sun.shadow.camera, 'near', 0, 10).step(0.1).name('Shadow Camera Near');
-shadowFolder.add(sun.shadow.camera, 'far', 10, 1000).step(1).name('Shadow Camera Far');
-shadowFolder.add(sun.shadow.camera, 'left', -500, 500).step(10).name('Shadow Camera Left');
-shadowFolder.add(sun.shadow.camera, 'right', -500, 500).step(10).name('Shadow Camera Right');
-shadowFolder.add(sun.shadow.camera, 'top', -500, 500).step(10).name('Shadow Camera Top');
-shadowFolder.add(sun.shadow.camera, 'bottom', -500, 500).step(10).name('Shadow Camera Bottom');
-shadowFolder.open();
+// const shadowFolder = gui.addFolder('Sun Shadows');
+// shadowFolder.add(sun.shadow.mapSize, 'width', 1024, 4096).step(256).name('Shadow Map Size Width');
+// shadowFolder.add(sun.shadow.mapSize, 'height', 1024, 4096).step(256).name('Shadow Map Size Height');
+// shadowFolder.add(sun.shadow.camera, 'near', 0, 10).step(0.1).name('Shadow Camera Near');
+// shadowFolder.add(sun.shadow.camera, 'far', 10, 1000).step(1).name('Shadow Camera Far');
+// shadowFolder.add(sun.shadow.camera, 'left', -500, 500).step(10).name('Shadow Camera Left');
+// shadowFolder.add(sun.shadow.camera, 'right', -500, 500).step(10).name('Shadow Camera Right');
+// shadowFolder.add(sun.shadow.camera, 'top', -500, 500).step(10).name('Shadow Camera Top');
+// shadowFolder.add(sun.shadow.camera, 'bottom', -500, 500).step(10).name('Shadow Camera Bottom');
+// shadowFolder.open();
 
 // Optional: Add a button to reset camera position or other settings
 const resetButton = {
