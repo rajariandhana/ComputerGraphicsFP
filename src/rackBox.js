@@ -35,6 +35,15 @@ class RackBox extends THREE.Mesh {
     side2.position.x = -side.position.x;
     this.rackGroup.add(side2);
 
+    let back = new THREE.Mesh(
+      new THREE.PlaneGeometry(100,20),
+      woodMaterial
+    );
+    back.position.z = -10;
+    back.castShadow = true;
+    back.receiveShadow=true;
+    this.rackGroup.add(back)
+
     // this.rotation.y = Math.PI / 2;
     this.rackGroup.position.z=top.geometry.parameters.depth/2;
     this.add(this.rackGroup);
