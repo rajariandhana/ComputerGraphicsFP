@@ -35,6 +35,8 @@ class Table extends THREE.Mesh {
 
     let chair1 = new Chair();
     chair1.position.set(top.geometry.parameters.width/4-10, 0, 25);
+    chair1.castShadow=true;
+    chair1.receiveShadow=true;
     chair1.rotation.y = 90*Math.PI;
 
     let chair2 = chair1.clone();

@@ -4,6 +4,11 @@ class MainDoor extends THREE.Mesh {
   constructor() {
     super();
     this.door = new THREE.Group();
+    this.isOpen = false;
+    this.currentAngle = 0; // Current angle of the door panel
+    this.targetAngle = 0; // Target angle for animation
+    this.speed = Math.PI / 50;
+    this.animating = false;
 
     const glassMaterial = new THREE.MeshPhysicalMaterial();
     glassMaterial.color = new THREE.Color(1,1,1);
@@ -13,13 +18,6 @@ class MainDoor extends THREE.Mesh {
     glassMaterial.thickness = 0.9;
     glassMaterial.specularIntensity = 1.0;
     glassMaterial.clearcoat = 1.0;
-
-    let glassDoor = new THREE.Mesh(
-        new THREE.BoxGeometry(120,150,5),
-        glassMaterial,
-    )
-    this.door.add(glassDoor)
-    glassDoor.position.y=150/2;
 
     let glassStanding1 = new THREE.Mesh(
         new THREE.BoxGeometry(40,170,5),
@@ -102,21 +100,79 @@ class MainDoor extends THREE.Mesh {
         // roughness:0.05,
         // envMap: cubeRenderTarget.texture
     });
-    let handle = new THREE.Mesh(
+
+    
+    let door1 = new THREE.Object3D();
+    door1.position.set(-60,0,0);
+    let glass1 = new THREE.Mesh(
+        new THREE.BoxGeometry(60,150,5),
+        glassMaterial,
+    )
+    glass1.position.set(30,150/2,0);
+    let handle1 = new THREE.Mesh(
         new THREE.BoxGeometry(5, 20, 5),
         metalMaterial
     );
-    handle.position.set(-10, 150/2, 0);
-    handle.castShadow=true;
-    handle.receiveShadow=true;
-    this.door.add(handle);
+    handle1.position.set(50, 150/2, 0);
+    handle1.castShadow=true;
+    handle1.receiveShadow=true;
+    door1.add(glass1,handle1)
 
-    let handle2 = handle.clone();
-    handle.position.x = handle.position.x * -1;
-    this.door.add(handle2);
+    let door2 = new THREE.Object3D();
+    door2.position.set(60,0,0);
+    let glass2 = new THREE.Mesh(
+        new THREE.BoxGeometry(60,150,5),
+        glassMaterial,
+    )
+    glass2.position.set(-30,150/2,0);
+    let handle2 = new THREE.Mesh(
+        new THREE.BoxGeometry(5, 20, 5),
+        metalMaterial
+    );
+    handle2.position.set(-50, 150/2, 0);
+    handle2.castShadow=true;
+    handle2.receiveShadow=true;
+    door2.add(glass2,handle2)
+    // door2.position.y = Math.PI*4;
+    this.door.add(door1, door2);
 
+    this.door.userData.type = 'MainDoor'
+    this.door.userData.doorInstance = this
+    this.door.userData.door1 = door1;
+    this.door.userData.door2 = door2;
     this.add(this.door);
   }
+//   function onClick(event){
+//         console.log(event);
+//     }
+    ToggleDoor() {
+        console.log("toggle door");
+        if (this.animating) return; // Prevent animation overlap
+
+        this.isOpen = !this.isOpen;
+        this.targetAngle = this.isOpen ? Math.PI / 2 : 0; // 90 degrees to open
+        this.animating = true;
+
+        const door1 = this.door.userData.door1;
+        const door2 = this.door.userData.door2;
+
+        const animate = () => {
+            const delta = this.targetAngle - this.currentAngle;
+            const step = Math.sign(delta) * Math.min(Math.abs(delta), this.speed);
+
+            this.currentAngle += step;
+            door1.rotation.y = this.currentAngle; // Left door opens positively
+            door2.rotation.y = -this.currentAngle; // Right door opens negatively
+
+            if (Math.abs(delta) > 0.001) {
+                requestAnimationFrame(animate); // Continue animation
+            } else {
+                this.animating = false; // Animation finished
+            }
+        };
+
+        animate();
+    }
 }
 
 export { MainDoor };
