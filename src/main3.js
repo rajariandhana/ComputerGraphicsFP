@@ -12,6 +12,7 @@ import { WoodenWall } from './woodenWall.js';
 import { MainDoor } from './mainDoor.js';
 import { WorkSpace } from './workSpace.js';
 import { Tween } from 'three/examples/jsm/libs/tween.module.js';
+import { playSound } from './pcsound.js';
 
 console.warn = function() {};
 
@@ -268,3 +269,8 @@ function animate() {
     // controls.update();
     renderer.render(scene, camera);
 }
+
+window.addEventListener('click', (event) => {
+    // Trigger the sound for some interaction
+    playSound('computersound.mp3');
+});
