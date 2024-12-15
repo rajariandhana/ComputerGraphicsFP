@@ -12,6 +12,10 @@ import { WoodenWall } from './woodenWall.js';
 import { MainDoor } from './mainDoor.js';
 import { WorkSpace } from './workSpace.js';
 import { Tween } from 'three/examples/jsm/libs/tween.module.js';
+import { playSound } from './pcsound.js';
+import { Mirror } from './mirror.js';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+import { GlassWall } from './glasswall.js';
 
 console.warn = function() {};
 
@@ -57,8 +61,14 @@ window.addEventListener('click', (event) => {
         else if (parentGroup && parentGroup.userData.type === 'RackFlat') {
             parentGroup.userData.rackInstance.ToggleLamp();
         }
+        else if (parentGroup && parentGroup instanceof TV) {
+            // Handle TV click
+            parentGroup.onClick();
+            playSound('computersound.mp3'); // Reuse your existing sound
+        }
     }
 });
+
 // let cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
 //     format: THREE.RGBAFormat,
 //     generateMipmaps: true,
@@ -155,10 +165,29 @@ wallWest.position.z = -floor.geometry.parameters.height / 2; // Edge along Z-axi
 wallWest.position.y = wallWest.geometry.parameters.height / 2;
 scene.add(wallWest);
 
-let wallEast = wallWest.clone();
-wallEast.position.z = floor.geometry.parameters.height / 2; // Opposite edge along Z-axis
+let wallEast = new THREE.Mesh(
+    new THREE.PlaneGeometry(600, 200), // Match floor width
+    new THREE.MeshStandardMaterial({ color: 0xD9D3C3, side: THREE.DoubleSide })
+);
+
+wallEast.receiveShadow = true;
+wallEast.position.z = floor.geometry.parameters.height / 2; // Edge along Z-axis
+wallEast.position.y = wallEast.geometry.parameters.height / 2;
 scene.add(wallEast);
 
+const woodTexture = new THREE.TextureLoader().load('/textures/wood.jpg');
+    const woodMaterial = new THREE.MeshStandardMaterial({
+        map:woodTexture
+    })
+let SmallWall = new THREE.Mesh(
+        new THREE.BoxGeometry(380, 100, 5),
+        woodMaterial
+    );
+    SmallWall.position.set(300, 100/2, 160);
+    SmallWall.rotation.y = Math.PI/2 ;
+    SmallWall.castShadow=true;
+    SmallWall.receiveShadow=true;
+    scene.add(SmallWall);
 // let helper = new THREE.CameraHelper( light.shadow.camera );
 // scene.add( helper );
 
@@ -179,16 +208,24 @@ workspace2.position.set(-274,0,-240);
 workspace2.castShadow=true
 
 let workspace3 = new WorkSpace();
-workspace3.position.set(-60, 0, 325);
+workspace3.position.set(-150, 0, 325);
 workspace3.rotation.y = Math.PI / 2;
 
 let workspace4 = new WorkSpace();
-workspace4.position.set(120, 0, 325);
+workspace4.position.set(30, 0, 325);
 workspace4.rotation.y = Math.PI / 2;
+
+let workspace5 = new WorkSpace();
+workspace5.position.set(270, 0, 250);
+workspace5.rotation.y = -Math.PI;
+
+let workspace6 = new WorkSpace();
+workspace6.position.set(270, 0, 70);
+workspace6.rotation.y = -Math.PI;
 
 let woodenWall = new WoodenWall();
 woodenWall.position.set(-170,0,wallWest.position.z);
-scene.add(rackFlat1,rackFlat2,workspace1,workspace2,workspace3,workspace4,woodenWall);
+scene.add(rackFlat1,rackFlat2,workspace1,workspace2,workspace3,workspace4,workspace5,workspace6,woodenWall);
 
 let tv = new TV();
 tv.position.set(0, 120, -345.1); 
@@ -198,9 +235,18 @@ let whiteboard = new Whiteboard();
 whiteboard.position.set(180, 120, -350.1); 
 scene.add(whiteboard);
 
+let mirror = new Mirror(150, 190);
+mirror.position.set(-170, 100, -345); 
+scene.add(mirror);
+
 let conferenceTable = new ConferenceTable();
 conferenceTable.position.set(10, 0, -30); 
 scene.add(conferenceTable);
+
+let glassWall = new GlassWall();
+glassWall.position.set(300, 100, 0); // Adjust position as needed
+glassWall.rotation.y = Math.PI / 2;  // Rotate to match your room orientation
+scene.add(glassWall);
 
 // let table2 = new Table();
 // table2.position.set(0, 1, -7.5);
@@ -265,6 +311,21 @@ let resetButton = {
 gui.add(resetButton, 'resetCamera').name('Reset Camera Position');
 
 function animate() {
-    // controls.update();
+    // Your existing animation code...
+    
+    // Update TV video texture if TV exists and is playing
+    const tvs = scene.children.filter(child => child instanceof TV);
+    tvs.forEach(tv => {
+        if (tv.update) {
+            tv.update();
+        }
+    });
+    
     renderer.render(scene, camera);
 }
+
+window.addEventListener('click', (event) => {
+    // Trigger the sound for some interaction
+    playSound('computersound.mp3');
+});
+
