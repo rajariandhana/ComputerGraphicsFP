@@ -118,7 +118,15 @@ To get an input from the mouse that clicks the door we use raycasting. When the 
 To get an input from the mouse that clicks the rack above the table we use raycasting. When the rack is clicked it triggers the <code>ToggleLamp</code> method from <code>rackFlat.js</code>. When triggered it changes the lamp's intensity to simulate on/off lighting.
 
 #### Audio
+For this features to be played, it would need the user mouse to click on the project, then the audio will be played automatically. To replay the audio, user can click on the project again. 
+```js
 
+window.addEventListener('click', (event) => {
+    // Trigger the sound for some interaction
+    playSound('computersound.mp3');
+});
+
+```
 
 
 ### Development Process
